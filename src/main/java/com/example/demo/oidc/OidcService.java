@@ -8,6 +8,8 @@ package com.example.demo.oidc;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -44,6 +46,9 @@ public class OidcService
     
     @Value("${oidc.keycloak.userInfoUri}")
     protected String userInfoUri;
+    
+    @Value("${oidc.keycloak.endsession}")
+    protected String endSession;
     
     public OidcService() 
     {
@@ -83,5 +88,47 @@ public class OidcService
         ResponseEntity <String> response = restTemplate.postForEntity(this.tokenUri, request, String.class);
         
         return response.getBody();
+    }
+    
+    public boolean check(String bearer)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", bearer);        
+        HttpEntity request = new HttpEntity(headers);        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity <String> response = restTemplate.exchange(this.userInfoUri, HttpMethod.GET,  request, String.class, 1);
+        
+        return (response.getStatusCode() == HttpStatus.OK);
+    }
+    
+    public String refresh()
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap <String, String> formParams = new LinkedMultiValueMap <> ();
+        
+        formParams.add("grant_type", "refresh_token");
+        formParams.add("client_id", this.clientId);
+        formParams.add("client_secret", this.clientSecret);
+        formParams.add("refresh_token", "the-refresh-token");
+        formParams.add("scope", this.scope);
+        
+        HttpEntity <?> request = new HttpEntity <> (formParams, headers);
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity <String> response = restTemplate.postForEntity(this.tokenUri, request, String.class);
+        
+        return response.getBody();
+    }
+    
+    public RedirectView endSession()
+    {
+        String url = this.endSession + "?redirect_uri=" + this.redirectUri;
+        
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(url);
+        
+        return redirectView;
     }
 }

@@ -37,4 +37,22 @@ public class Oidc
     {
         return this.service.callback(code);
     }
+    
+    @GetMapping("/check")
+    public void check()
+    {
+        //
+    }
+    
+    @GetMapping("/refresh")
+    public String refresh()
+    {
+        return this.service.refresh();
+    }
+    
+    @GetMapping("/endSession")
+    public RedirectView endSession()
+    {
+        return this.service.endSession();
+    }
 }

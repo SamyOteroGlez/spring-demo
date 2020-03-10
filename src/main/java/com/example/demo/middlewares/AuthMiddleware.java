@@ -5,6 +5,7 @@
  */
 package com.example.demo.middlewares;
 
+import com.example.demo.oidc.OidcService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,16 +19,18 @@ public class AuthMiddleware extends HandlerInterceptorAdapter
     @Override
     public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception
     {
-        String header = request.getHeader("Authorization");
+        String bearer = request.getHeader("Authorization");
         
         // Check for the bearer token
-        if (null == header) {
+        if (null == bearer) {
             // Redirect to the authentication server
             response.sendRedirect("/redirect");
             
             return false;
         }
         
-        return true;
+        OidcService service = new OidcService();
+        
+        return service.check(bearer);
     }
 }
