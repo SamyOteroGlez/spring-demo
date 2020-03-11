@@ -8,6 +8,7 @@ package com.example.demo.middlewares;
 import com.example.demo.oidc.OidcService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -16,6 +17,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class AuthMiddleware extends HandlerInterceptorAdapter
 {
+    @Autowired
+    protected OidcService service;
+    
     @Override
     public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception
     {
@@ -29,8 +33,6 @@ public class AuthMiddleware extends HandlerInterceptorAdapter
             return false;
         }
         
-        OidcService service = new OidcService();
-        
-        return service.check(bearer);
+        return this.service.check(bearer);
     }
 }

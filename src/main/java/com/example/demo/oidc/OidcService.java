@@ -97,7 +97,7 @@ public class OidcService
         headers.set("Authorization", bearer);        
         HttpEntity request = new HttpEntity(headers);        
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity <String> response = restTemplate.exchange(this.userInfoUri, HttpMethod.GET,  request, String.class, 1);
+        ResponseEntity <String> response = restTemplate.exchange(this.userInfoUri, HttpMethod.GET,  request, String.class);
         
         return (response.getStatusCode() == HttpStatus.OK);
     }

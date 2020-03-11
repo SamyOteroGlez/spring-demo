@@ -5,6 +5,7 @@
  */
 package com.example.demo.middlewares;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -16,9 +17,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class AuthMiddlewareConfiguration extends WebMvcConfigurerAdapter
 {
+    @Bean
+    public AuthMiddleware authMiddleware() 
+    {
+        return new AuthMiddleware();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry)
     {
-        registry.addInterceptor(new AuthMiddleware()).addPathPatterns("/api/v1/**");
+        registry.addInterceptor(this.authMiddleware()).addPathPatterns("/api/v1/**");
     }
 }
