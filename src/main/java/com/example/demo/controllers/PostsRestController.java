@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author tesa
  */
 @RestController
-//@RequestMapping("/api/v1")
 public class PostsRestController extends BaseRestController
 {
     @Autowired
