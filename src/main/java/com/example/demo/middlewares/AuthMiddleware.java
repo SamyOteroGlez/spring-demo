@@ -23,6 +23,12 @@ public class AuthMiddleware extends HandlerInterceptorAdapter
     @Override
     public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception
     {
+        // check if authetnication is off
+        if (!this.service.status()) {
+            return true;
+        }
+        
+        // proceed with teh authenticatin check
         String bearer = request.getHeader("Authorization");
         
         // Check for the bearer token

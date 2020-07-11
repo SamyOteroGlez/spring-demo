@@ -18,38 +18,71 @@ import org.springframework.web.servlet.view.RedirectView;
 @RestController
 public class Oidc
 {
+    /**
+     * Oidc service.
+     */
     @Autowired
     protected OidcService service;
     
+    /**
+     * Class controller.
+     */
     public Oidc()
     {
         //
     }
     
+    /**
+     * Redirect to the authentication server.
+     * 
+     * @return RedirectView
+     */
     @GetMapping("/redirect")
     public RedirectView redirect()
     {
         return this.service.redirect();
     } 
     
+    /**
+     * Callback to get the authentication token.
+     * 
+     * @param code
+     * 
+     * @return String
+     */
     @GetMapping("/callback")
     public String callback(@RequestParam String code)
     {
         return this.service.callback(code);
     }
     
+    /**
+     * Check the token.
+     * 
+     * @return void
+     */
     @GetMapping("/check")
     public void check()
     {
-        //
+        // not implemented
     }
     
+    /**
+     * Refresh the authentication token.
+     * 
+     * @return String
+     */
     @GetMapping("/refresh")
     public String refresh()
     {
         return this.service.refresh();
     }
     
+    /**
+     * End session, logout.
+     * 
+     * @return RedirectView
+     */
     @GetMapping("/endSession")
     public RedirectView endSession()
     {

@@ -23,6 +23,9 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 public class OidcService
 {
+    @Value("${oidc.on}")
+    protected String status;
+    
     @Value("${oidc.keycloak.clientId}")
     protected String clientId;
     
@@ -50,11 +53,29 @@ public class OidcService
     @Value("${oidc.keycloak.endsession}")
     protected String endSession;
     
+    /**
+     * Class constructor.
+     */
     public OidcService() 
     {
         //
     }
     
+    /**
+     * Get oidc status.
+     * 
+     * @return Boolean
+     */
+    public Boolean status()
+    {
+        return ("true" == this.status);
+    }
+    
+    /**
+     * Redirect endpoint.
+     * 
+     * @return RedirectView
+     */
     public RedirectView redirect()
     {
         String url = this.authUri 
@@ -69,6 +90,13 @@ public class OidcService
         return redirectView;
     } 
     
+    /**
+     * Callback, get the authentication token.
+     * 
+     * @param code
+     * 
+     * @return String
+     */
     public String callback(String code)
     {
         HttpHeaders headers = new HttpHeaders();
@@ -90,6 +118,13 @@ public class OidcService
         return response.getBody();
     }
     
+    /**
+     * Check for the token validity.
+     * 
+     * @param bearer
+     * 
+     * @return boolean
+     */
     public boolean check(String bearer)
     {
         HttpHeaders headers = new HttpHeaders();
@@ -102,6 +137,11 @@ public class OidcService
         return (response.getStatusCode() == HttpStatus.OK);
     }
     
+    /**
+     * Refresh the token.
+     * 
+     * @return String
+     */
     public String refresh()
     {
         HttpHeaders headers = new HttpHeaders();
@@ -122,6 +162,11 @@ public class OidcService
         return response.getBody();
     }
     
+    /**
+     * End session, logout.
+     * 
+     * @return RedirectView
+     */
     public RedirectView endSession()
     {
         String url = this.endSession + "?redirect_uri=" + this.redirectUri;

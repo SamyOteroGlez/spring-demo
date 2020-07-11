@@ -19,9 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CategoriesRestController extends BaseRestController
 {
+    /**
+     * Categories service.
+     */
     @Autowired
     protected CategoriesService service;
     
+    /**
+     * Get all categories.
+     * 
+     * @return List <Category>
+     */
     @GetMapping("/categories")
     public List <Category> index()
     {

@@ -26,15 +26,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PostsRestController extends BaseRestController
 {
+    /**
+     * Post service.
+     */
     @Autowired
     protected PostsService service;
 
+    /**
+     * Get all posts.
+     * 
+     * @return List <Post>
+     */
     @GetMapping("/posts")
     public List <Post> index()
     {
         return this.service.all();
     }
     
+    /**
+     * Create a post.
+     * 
+     * @param post
+     * 
+     * @return Post
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/posts")
     public Post create(@RequestBody Post post)
@@ -42,18 +57,37 @@ public class PostsRestController extends BaseRestController
         return this.service.create(post);
     }
     
+    /**
+     * Show a post.
+     * 
+     * @param id
+     * 
+     * @return Post
+     */
     @GetMapping("/posts/{id}")
     public Post show(@PathVariable Long id)
     {
         return this.service.show(id);
     }
     
+    /**
+     * Update a post.
+     * 
+     * @param post
+     * 
+     * @return Post
+     */
     @PutMapping("/posts")
     public Post update(@RequestBody Post post)
     {
         return this.service.update(post);
     }
     
+    /**
+     * Delete a post.
+     * 
+     * @param id 
+     */
     @DeleteMapping("/posts/{id}")
     public void delete(@PathVariable Long id)
     {

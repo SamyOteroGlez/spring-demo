@@ -18,9 +18,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoriesService
 {
+    /**
+     * Categories repository.
+     */
     @Autowired
     protected CategoryRepository repository;
     
+    /**
+     * Get all categories.
+     * 
+     * @return List <Category>
+     */
     public List <Category> all()
     {
         return this.repository.findAll();
