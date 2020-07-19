@@ -1,0 +1,16 @@
+com/example/demo/services/CategoriesService.class
+com/example/demo/middlewares/AuthMiddleware.class
+com/example/demo/controllers/BaseRestController.class
+com/example/demo/controllers/PostsRestController.class
+com/example/demo/entities/Tag.class
+com/example/demo/repositories/PostRepository.class
+com/example/demo/services/PostsService.class
+com/example/demo/oidc/OidcService.class
+com/example/demo/middlewares/AuthMiddlewareConfiguration.class
+com/example/demo/oidc/Oidc.class
+com/example/demo/DemoApplication.class
+com/example/demo/repositories/TagRepository.class
+com/example/demo/repositories/CategoryRepository.class
+com/example/demo/controllers/CategoriesRestController.class
+com/example/demo/entities/Category.class
+com/example/demo/entities/Post.class
